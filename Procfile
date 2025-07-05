@@ -1,1 +1,1 @@
-worker: python automaton/main.py
+worker: python main.py
