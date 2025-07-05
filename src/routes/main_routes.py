@@ -10,7 +10,6 @@ from telegram.ext import (
 router = APIRouter()
 
 # Load your bot token from environment variables
-# Make sure to add the TELEGRAM_BOT_TOKEN in your Render environment variables (without quotes)
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # Ensure the token is provided
@@ -35,8 +34,6 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Register the /start handler
 telegram_app.add_handler(CommandHandler("start", start_command))
 
-# Make sure to start the polling or webhook for Telegram to receive updates
-# If you're using polling (during local dev):
+# Comment this out in production, leave it for local dev:
 # telegram_app.run_polling()
 
-# If you're using webhooks in production, you can skip the polling step and rely on webhooks instead.
