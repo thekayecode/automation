@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routes import hello
+from ser_routes_main_routes imort router
 
 app = FastAPI()
 
