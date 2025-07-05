@@ -1,9 +1,22 @@
-from fastapi import FastAPI
-from routes.main_routes import router
+import os
+from dotenv import load_dotenv
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-app = FastAPI()
-app.include_router(router)
+# Load environment variables
+load_dotenv()
 
-@app.get("/")
-def root():
-    return {"message": "Hello from root!"}
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+if BOT_TOKEN is None:
+    raise ValueError("BOT_TOKEN is not set in environment variables.")
+
+app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+# Example handler
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Hello! I'm alive.")
+
+app.add_handler(CommandHandler("start", start))
+
+app.run_polling()
