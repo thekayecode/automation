@@ -1,10 +1,9 @@
-import time
+from fastapi import FastAPI, Request
 
-def run_bot():
-    print("🚀 Bot started...")
-    # Your automation task goes here
-    time.sleep(2)
-    print("✅ Bot completed.")
+app = FastAPI()
 
-if __name__ == "__main__":
-    run_bot()
+@app.post("/webhook")
+async def telegram_webhook(request: Request):
+    body = await request.json()
+    print("Received from Telegram:", body)
+    return {"status": "ok"}
