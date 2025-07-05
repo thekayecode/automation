@@ -10,8 +10,8 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # If the bot token is not found in the environment, raise an error
-if BOT_TOKEN is None:
-    raise ValueError("BOT_TOKEN is not set in environment variables.")
+if not BOT_TOKEN:
+    raise ValueError("BOT_TOKEN is not set in environment variables or the .env file.")
 
 # Create the Telegram bot app using the bot token
 app = ApplicationBuilder().token(BOT_TOKEN).build()
