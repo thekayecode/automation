@@ -1,20 +1,25 @@
-from fastapi import Request
-from telegram import Update, Bot
-from telegram.ext import Dispatcher, CommandHandler
 import os
+from fastapi import APIRouter, Request
+from telegram import Update
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+)
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-bot = Bot(token=TOKEN)
+router = APIRouter()
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+telegram_app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
 @router.post("/webhook")
 async def telegram_webhook(req: Request):
     data = await req.json()
-    update = Update.de_json(data, bot)
-    dp = Dispatcher(bot, None, workers=0)
-    
-    def start(update, context):
-        update.message.reply_text("Hello, this is your bot!")
+    update = Update.de_json(data, telegram_app.bot)
+    await telegram_app.process_update(update)
+    return {"status": "ok"}
 
-    dp.add_handler(CommandHandler("start", start))
-    dp.process_update(update)
-    return {"ok": True}
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Welcome to your automated content engine!")
+
+telegram_app.add_handler(CommandHandler("start", start))
