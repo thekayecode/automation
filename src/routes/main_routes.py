@@ -23,3 +23,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Welcome to your automated content engine!")
 
 telegram_app.add_handler(CommandHandler("start", start))
+
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("👋 Hey! I'm alive and running on Render. Let’s automate some content!")
+
+telegram_app.add_handler(CommandHandler("start", start_command))
+
