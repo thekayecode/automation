@@ -9,9 +9,13 @@ from telegram.ext import (
 
 router = APIRouter()
 
+# Load your bot token from environment variables
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+# Build the Telegram app
 telegram_app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
+# Webhook endpoint for Telegram
 @router.post("/webhook")
 async def telegram_webhook(req: Request):
     data = await req.json()
@@ -19,13 +23,9 @@ async def telegram_webhook(req: Request):
     await telegram_app.process_update(update)
     return {"status": "ok"}
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Welcome to your automated content engine!")
-
-telegram_app.add_handler(CommandHandler("start", start))
-
+# Bot command: /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("👋 Hey! I'm alive and running on Render. Let’s automate some content!")
 
+# Register the /start handler
 telegram_app.add_handler(CommandHandler("start", start_command))
-
