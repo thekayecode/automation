@@ -1,0 +1,15 @@
+   services:
+  - type: web
+    name: autoposterbot
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
+    autoDeploy: true
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: GOOGLE_DRIVE_JSON
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
